@@ -7,8 +7,8 @@ This is a FastAPI application that provides a system for transcribing audio file
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/triage-assessment-system.git
-cd triage-assessment-system
+git clone https://github.com/YASSERRMD/triage_system_groq.git
+cd triage_system_groq
 ```
 
 2. Install the required packages:
