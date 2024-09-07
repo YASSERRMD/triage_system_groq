@@ -1,0 +1,6 @@
+fastapi
+python-multipart
+fastapi-cors
+groq
+python-dotenv
+unicorn
