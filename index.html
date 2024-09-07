@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triage Assessment Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center text-primary mb-4"><i class="fas fa-notes-medical"></i> Triage Assessment Form</h2>
+        <form>
+            <!-- Voice Observation Section -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-microphone"></i> Voice Observation
+                </div>
+                <div class="card-body text-center">
+                    <button type="button" class="btn btn-danger" id="recordButton"><i class="fas fa-record-vinyl"></i> Start Recording</button>
+                    <button type="button" class="btn btn-secondary" id="stopButton" disabled><i class="fas fa-stop"></i> Stop Recording</button>
+                    <p class="mt-3">Your recording will appear below:</p>
+                    <audio id="audioPlayback" controls class="d-none mt-2"></audio>
+                </div>
+            </div>
+
+            <!-- Space for Generated Text -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <i class="fas fa-clipboard-list"></i> Generated Text from Voice Observation
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control" id="generatedText" rows="5" placeholder="Generated text from voice observation will appear here..." readonly></textarea>
+                </div>
+            </div>
+
+            <!-- Patient Information Section -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-user-injured"></i> Patient Information
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="patientName" class="form-label">Patient Name</label>
+                        <input type="text" class="form-control" id="patientName" placeholder="Enter patient's name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="number" class="form-control" id="age" placeholder="Enter patient's age" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select class="form-select" id="gender" required>
+                            <option selected disabled>Choose...</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABCDE Assessment Section -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <i class="fas fa-heartbeat"></i> ABCDE Assessment
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="airway" class="form-label">Airway Status</label>
+                            <select class="form-select" id="airway" required>
+                                <option selected disabled>Choose...</option>
+                                <option value="clear">Clear</option>
+                                <option value="obstructed">Obstructed</option>
+                                <option value="partially obstructed">Partially Obstructed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="breathing" class="form-label">Breathing Status</label>
+                            <select class="form-select" id="breathing" required>
+                                <option selected disabled>Choose...</option>
+                                <option value="normal">Normal</option>
+                                <option value="labored">Labored</option>
+                                <option value="not breathing">Not Breathing</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="circulation" class="form-label">Circulation Status</label>
+                            <select class="form-select" id="circulation" required>
+                                <option selected disabled>Choose...</option>
+                                <option value="normal">Normal</option>
+                                <option value="weak">Weak</option>
+                                <option value="absent">Absent</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="disability" class="form-label">Disability (Neurological)</label>
+                            <select class="form-select" id="disability" required>
+                                <option selected disabled>Choose...</option>
+                                <option value="alert">Alert</option>
+                                <option value="verbal">Responds to Verbal Stimuli</option>
+                                <option value="pain">Responds to Pain</option>
+                                <option value="unresponsive">Unresponsive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exposure" class="form-label">Exposure</label>
+                        <textarea class="form-control" id="exposure" rows="3" placeholder="Describe any visible injuries or conditions" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Triage Classification Section -->
+            <div class="card mb-4">
+                <div class="card-header bg-danger text-white">
+                    <i class="fas fa-tags"></i> Triage Classification
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="triageCategory" class="form-label">Triage Category</label>
+                        <select class="form-select" id="triageCategory" required>
+                            <option selected disabled>Choose...</option>
+                            <option value="red">Red (Immediate)</option>
+                            <option value="yellow">Yellow (Delayed)</option>
+                            <option value="green">Green (Minor)</option>
+                            <option value="black">Black (Expectant/Deceased)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comments" class="form-label">Additional Comments</label>
+                        <textarea class="form-control" id="comments" rows="4" placeholder="Any additional observations or comments..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Form</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
+    <!-- Voice Recording Script -->
+     
+    <script>
+        let recordButton = document.getElementById('recordButton');
+            let stopButton = document.getElementById('stopButton');
+            let audioPlayback = document.getElementById('audioPlayback');
+            let generatedText = document.getElementById('generatedText');
+
+            let mediaRecorder;
+            let audioChunks = [];
+
+            recordButton.addEventListener('click', () => {
+                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                    mediaRecorder.start();
+                    audioChunks = [];
+
+                    mediaRecorder.addEventListener('dataavailable', event => {
+                        audioChunks.push(event.data);
+                    });
+
+                    mediaRecorder.addEventListener('stop', async () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        audioPlayback.src = audioUrl;
+                        audioPlayback.classList.remove('d-none');
+
+                        const transcription = await transcribeAudio(audioBlob);
+                        generatedText.value = transcription || "Transcription failed.";
+                    });
+
+                    recordButton.disabled = true;
+                    stopButton.disabled = false;
+                });
+            });
+
+            stopButton.addEventListener('click', () => {
+                mediaRecorder.stop();
+                recordButton.disabled = false;
+                stopButton.disabled = true;
+            });
+
+            async function transcribeAudio(audioFile) {
+                const formData = new FormData();
+                formData.append('file', audioFile,'recording.webm');
+
+                try {
+                    const response = await fetch('http://localhost:8000/transcribe/', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    var respString =data.details
+                    var respJsonCont = respString.match(/{[\s\S]*}/);
+
+                    var respJsonObject = JSON.parse(respJsonCont[0]);
+                    populateForm(respJsonObject);
+                    return data.transcription;
+                } catch (error) {
+                    console.error(error);
+                    return null;
+                }
+            }
+
+        const sampleData = {
+        "patientInformation": {
+            "patientName": "John Doe",
+            "age": 45,
+            "gender": "male"
+        },
+        "abcdeAssessment": {
+            "airwayStatus": "clear",
+            "breathingStatus": "labored",
+            "circulationStatus": "weak",
+            "disabilityStatus": "unresponsive",
+            "exposure": "Patient shows signs of severe trauma to the chest and abdomen with visible bruising."
+        },
+        "triageClassification": {
+            "triageCategory": "red",
+            "comments": "Patient requires immediate intervention due to unresponsiveness and labored breathing. Possible internal injuries suspected."
+        }
+    };
+
+    var jsonString = "Here is the converted statement in the desired JSON format:\n\n{\n    \"patientInformation\": {\n        \"patientName\": \"John Doe\",\n        \"age\": 45,\n        \"gender\": \"Male\"\n    },\n    \"abcdeAssessment\": {\n        \"airwayStatus\": \"clear\",\n        \"breathingStatus\": \"labored\",\n        \"circulationStatus\": \"weak\",\n        \"disabilityStatus\": \"unresponsive\",\n        \"exposure\": \"Patient shows signs of severe trauma to the chest and abdomen with visible bruising.\"\n    },\n    \"triageClassification\": {\n        \"triageCategory\": \"red\",\n        \"comments\": \"Patient requires immediate intervention due to unresponsiveness and labored breathing. Possible internal injuries suspected.\"\n    }\n}\n\nNote: The \"exposure\" field in the abcdeAssessment object combines the information about the patient's condition, injuries, and response to stimuli. The \"comments\" field in the triageClassification object summarizes the key reasons for the patient's Red triage classification.";
+
+// Extract the JSON part from the string
+var jsonPart = jsonString.match(/{[\s\S]*}/);
+
+// Parse the JSON string into a JavaScript object
+var jsonObject = JSON.parse(jsonPart[0]);
+
+    // Function to populate form fields
+    function populateForm(data) {
+        // Patient Information
+        document.getElementById('patientName').value = data.patientInformation.patientName;
+        document.getElementById('age').value = data.patientInformation.age;
+        document.getElementById('gender').value = data.patientInformation.gender;
+
+        // ABCDE Assessment
+        document.getElementById('airway').value = data.abcdeAssessment.airwayStatus;
+        document.getElementById('breathing').value = data.abcdeAssessment.breathingStatus;
+        document.getElementById('circulation').value = data.abcdeAssessment.circulationStatus;
+        document.getElementById('disability').value = data.abcdeAssessment.disabilityStatus;
+        document.getElementById('exposure').value = data.abcdeAssessment.exposure;
+
+        // Triage Classification
+        document.getElementById('triageCategory').value = data.triageClassification.triageCategory;
+        document.getElementById('comments').value = data.triageClassification.comments;
+    }
+
+    // Populate the form when the page loads
+    window.onload = function() {
+       // populateForm(jsonObject);
+    };
+    </script>
+</body>
+</html>
