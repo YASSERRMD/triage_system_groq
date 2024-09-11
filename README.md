@@ -30,7 +30,7 @@ Replace `your_groq_api_key_here` with your actual Groq API key.
 1. Run the FastAPI application:
 
 ```bash
-python app.py
+uvicorn app:app --reload
 ```
 
 2. Open your web browser and navigate to `http://localhost:8000`.
