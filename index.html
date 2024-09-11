@@ -19,8 +19,10 @@
                 <div class="card-body text-center">
                     <button type="button" class="btn btn-danger" id="recordButton"><i class="fas fa-record-vinyl"></i> Start Recording</button>
                     <button type="button" class="btn btn-secondary" id="stopButton" disabled><i class="fas fa-stop"></i> Stop Recording</button>
+                    <button type="button" class="btn btn-warning" id="refreshButton"><i class="fas fa-sync-alt"></i> Refresh</button>
                     <p class="mt-3">Your recording will appear below:</p>
                     <audio id="audioPlayback" controls class="d-none mt-2"></audio>
+                    <div id="loadingIcon" class="d-none mt-2"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
                 </div>
             </div>
 
@@ -152,11 +154,14 @@
     <script>
         let recordButton = document.getElementById('recordButton');
             let stopButton = document.getElementById('stopButton');
+            let refreshButton = document.getElementById('refreshButton');
             let audioPlayback = document.getElementById('audioPlayback');
             let generatedText = document.getElementById('generatedText');
+            let loadingIcon = document.getElementById('loadingIcon');
 
             let mediaRecorder;
             let audioChunks = [];
+            let audioBlob;
 
             recordButton.addEventListener('click', () => {
                 navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
@@ -169,13 +174,15 @@
                     });
 
                     mediaRecorder.addEventListener('stop', async () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        loadingIcon.classList.remove('d-none');
+                        audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                         const audioUrl = URL.createObjectURL(audioBlob);
                         audioPlayback.src = audioUrl;
                         audioPlayback.classList.remove('d-none');
 
                         const transcription = await transcribeAudio(audioBlob);
                         generatedText.value = transcription || "Transcription failed.";
+                        loadingIcon.classList.add('d-none');
                     });
 
                     recordButton.disabled = true;
@@ -189,12 +196,21 @@
                 stopButton.disabled = true;
             });
 
+            refreshButton.addEventListener('click', async () => {
+            if (audioBlob) {
+                loadingIcon.classList.remove('d-none');
+                const transcription = await transcribeAudio(audioBlob);
+                generatedText.value = transcription || "Transcription failed.";
+                loadingIcon.classList.add('d-none');
+            }
+        });
+
             async function transcribeAudio(audioFile) {
                 const formData = new FormData();
                 formData.append('file', audioFile,'recording.webm');
 
                 try {
-                    const response = await fetch('/transcribe/', {
+                    const response = await fetch('http://localhost:8000/transcribe/', {
                         method: 'POST',
                         body: formData
                     });
